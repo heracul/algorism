@@ -5,6 +5,8 @@ public class SelectSort {
 	public static void main(String[] args) {
 		int[]arr = {2,3,10,9,23,5,7,13,49,32,18,22};
 		SelectSort ss = new SelectSort(); 
+		System.out.print("before : ");
+		printLine(arr);
 		ss.selectSort(arr);
 	}
 	
@@ -22,9 +24,11 @@ public class SelectSort {
 				}
 			}
 		}
+		System.out.print("after : ");
 		printLine(arr);
 	}
-	private void printLine(int[]arr) {
+	
+	private static void printLine(int[]arr) {
 		for(int i : arr) {
 			System.out.print(i+" ");
 		}
