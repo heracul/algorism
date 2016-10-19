@@ -1,31 +1,33 @@
 package algorism.sort.select;
 
+import algorism.utils.BaseUtils;
+
 public class SelectSort {
 
 	public static void main(String[] args) {
-		int[]arr = {2,3,10,9,23,5,7,13,49,32,18,22};
+		Integer[]arr = BaseUtils.getRandomIntArrayNoDup(50, 100);
 		SelectSort ss = new SelectSort(); 
 		System.out.print("before : ");
-		printLine(arr);
+		BaseUtils.printLine(arr);
 		ss.selectSort(arr);
 	}
 	
-	public void selectSort(int[]arr) {
+	public void selectSort(Integer[]arr) {
 		int temp = 0;
 		
 		for(int i=0; i<arr.length-1; i++) {
-			printLine(arr);
+			if(arr[i] ==null ) continue;
 			for(int j=i+1; j<arr.length; j++ ) {
+				if(arr[j] ==null ) continue;
 				if(arr[i] > arr[j]) {
 					temp = arr[i];
 					arr[i] = arr[j];
 					arr[j] = temp;
-					printLine(arr);
 				}
 			}
 		}
 		System.out.print("after : ");
-		printLine(arr);
+		BaseUtils.printLine(arr);
 	}
 	
 	private static void printLine(int[]arr) {
