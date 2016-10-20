@@ -3,7 +3,7 @@ package algorism.binary.search.tree;
 public class BinarySearchTree {
 
 	public boolean insert(int t) {
-		Node
+		return true;
 	}
 	public static void main(String[] args) {
 
