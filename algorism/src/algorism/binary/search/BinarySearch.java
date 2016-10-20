@@ -10,7 +10,7 @@ public class BinarySearch {
 	public static void main(String[] args) {
 		BinarySearch binarySearch = new BinarySearch();
 		long startTime = System.currentTimeMillis();
-		Integer[] intArray = BaseUtils.getRandomIntArrayNoDup(100, 100);
+		Integer[] intArray = BaseUtils.getRandomIntegerArrayNoDup(100, 100);
 		BubbleSort bs = new BubbleSort();
 		intArray = bs.bubbleSort(intArray);
 		int findInt = binarySearch.binarySearch(intArray, 57);

@@ -19,13 +19,18 @@ public class BaseUtils {
 		return intArray;
 	}
 	
-	public static Integer[] getRandomIntArrayNoDup(int totalCount, int figures) {
+	public static Integer[] getRandomIntegerArrayNoDup(int totalCount, int figures) {
 		Random random = new Random();
-		Integer[] intArray = new Integer[totalCount];
+		Integer[] intArray = null;
 		HashSet<Integer> hashSet = new HashSet<Integer>();
+		int temp =0;
 		for(int i=0; i<totalCount; i++) {
-			hashSet.add(random.nextInt(figures));
+			temp = random.nextInt(figures);
+			if(!hashSet.contains(temp)) {
+				hashSet.add(temp);
+			}
 		}
+		intArray = new Integer[hashSet.size()];
 		hashSet.toArray(intArray);
 		return intArray;
 	}

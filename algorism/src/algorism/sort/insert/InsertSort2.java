@@ -5,7 +5,7 @@ import algorism.utils.BaseUtils;
 public class InsertSort2 {
 
 	public static void main(String[] args) {
-		Integer[]arr = BaseUtils.getRandomIntArrayNoDup(50, 100);
+		Integer[]arr = BaseUtils.getRandomIntegerArrayNoDup(50, 100);
 		InsertSort2 is = new InsertSort2();
 		System.out.print("before : ");
 		BaseUtils.printLine(arr);

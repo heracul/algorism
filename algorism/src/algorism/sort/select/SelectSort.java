@@ -5,7 +5,7 @@ import algorism.utils.BaseUtils;
 public class SelectSort {
 
 	public static void main(String[] args) {
-		Integer[]arr = BaseUtils.getRandomIntArrayNoDup(50, 100);
+		Integer[]arr = BaseUtils.getRandomIntegerArrayNoDup(50, 100);
 		SelectSort ss = new SelectSort(); 
 		System.out.print("before : ");
 		BaseUtils.printLine(arr);
