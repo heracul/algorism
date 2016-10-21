@@ -1,56 +1,38 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
 	public static void main(String[] args) {
-		byte[] bArr = new byte[10];
 		List<String> inputStrList = new ArrayList<String>();
+		Scanner sc = new Scanner(System.in);
+        int cases = sc.nextInt();
+		String inputLine = "";
+		char c = 20;
+		long temp = 0l;
 		try {
-			if(System.in.read(bArr) > 0) {
-				String inputLine = new String(bArr);
-				int cnt = Integer.parseInt(inputLine.trim().replaceAll("\n", ""));
-				for(int i=0; i<cnt; i++) {
-					if(System.in.read(bArr) > 0) {
-						inputLine = new String(bArr);
-						inputStrList.add(inputLine.trim().replaceAll("\n", ""));
-					}
-				}
-				
-				for(String input : inputStrList) {
-					for(int i=0; i < input.toCharArray().length; i++) {
-						char cArr = input.toCharArray()[i];
-						if(cArr == '%') {
-							input = input.replaceAll(input.substring(i, i+3), returnCharacter(input.substring(i, i+3)));
+			for(int i=0; i<cases; i++) {
+				inputLine = sc.next();
+				if(!inputLine.isEmpty()) {
+					for(int j=0; j<inputLine.toCharArray().length; j++) {
+						c = inputLine.toCharArray()[j];
+						if(inputLine.length() >=3 && c == '%') {
+							temp = Long.parseLong(inputLine.substring(j+1, j+3), 16);
+							inputLine = inputLine.replace(inputLine.substring(j, j+3), ((char)temp)+"");
 						}
 					}
-					System.out.println(input);
+					inputStrList.add(inputLine);
 				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			
+			for(String input : inputStrList) {
+				System.out.println(input);
+			}
+		} finally {
+			if(sc != null) {
+				sc.close();
+			}
 		}
 	}
-	
-	private static String returnCharacter(String input) {
-		if("%20".equals(input)) {
-			return " ";
-		} else if("%21".equals(input)) {
-			return "!";
-		} else if("%24".equals(input)) {
-			return "$";
-		} else if("%25".equals(input)) {
-			return "%";
-		} else if("%28".equals(input)) {
-			return "(";
-		} else if("%29".equals(input)) {
-			return ")";
-		} else if("%2a".equals(input)) {
-			return "*";
-		} else {
-			return "";
-		}
-	}
-
 }

@@ -10,7 +10,7 @@ public class BinarySearch {
 	public static void main(String[] args) {
 		BinarySearch binarySearch = new BinarySearch();
 		long startTime = System.currentTimeMillis();
-		Integer[] intArray = BaseUtils.getRandomIntegerArrayNoDup(100, 100);
+		Integer[] intArray = BaseUtils.getRandomIntegerArrayNoDup(50, 100);
 		BubbleSort bs = new BubbleSort();
 		intArray = bs.bubbleSort(intArray);
 		int findInt = binarySearch.binarySearch(intArray, 57);
@@ -24,7 +24,7 @@ public class BinarySearch {
 		int mid = 0;
 		
 		while(high >= low) {
-			mid = (high + mid) / 2;
+			mid = (high + low) / 2;
 			if(arrInt[mid]== null)continue;
 			if(arrInt[mid] > findInt) {
 				high = mid-1;

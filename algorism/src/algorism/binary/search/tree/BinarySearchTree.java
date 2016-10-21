@@ -34,6 +34,11 @@ public class BinarySearchTree {
 		return parent;
 	}
 	
+	public TreeNode delete(int param) {
+		TreeNode deleteNode = search(param);
+		return null;
+	}
+	
 	public void inOrder(TreeNode root){
         if(root!=null){
             inOrder(root.left);
