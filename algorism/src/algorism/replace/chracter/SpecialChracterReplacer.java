@@ -19,9 +19,10 @@ public class SpecialChracterReplacer {
 				if(!inputLine.isEmpty()) {
 					for(int j=0; j<inputLine.toCharArray().length; j++) {
 						c = inputLine.toCharArray()[j];
-						if(inputLine.length() >=3 && c == '%') {
+						if(inputLine.length() >=3 && inputLine.length() >= j+3 &&c == '%') {
 							temp = Long.parseLong(inputLine.substring(j+1, j+3), 16);
 							inputLine = inputLine.replace(inputLine.substring(j, j+3), ((char)temp)+"");
+							j=j+3;
 						}
 					}
 					inputStrList.add(inputLine);
