@@ -1,45 +1,67 @@
 package algorism.multi.thread;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MultiThreadManager {
-	private MultiThread1 mt1;
-	private MultiThread2 mt2;
-	private MultiThread3 mt3;
-	
+	private Thread mt1;
+	private Thread mt2;
+	private Thread mt3;
+	private Map<String, Double> accountMap = new HashMap<String, Double>();
+	public MultiThreadManager(Map<String, Double> accountMap) {
+		this.accountMap = accountMap;
+	}
 	public void init() {
-		mt1 = new MultiThread1();
-		mt2 = new MultiThread2();
-		mt3 = new MultiThread3();
+		mt1 = new Thread(new MultiThread1());
+		mt2 = new Thread(new MultiThread2());
+		mt3 = new Thread(new MultiThread3());
 	}
 
-	public MultiThread1 getMt1() {
+	public void start() {
+		mt1.start();
+		mt2.start();
+		mt3.start();
+	}
+	
+	public Thread getMt1() {
 		return mt1;
 	}
 
-	public MultiThread2 getMt2() {
+	public Thread getMt2() {
 		return mt2;
 	}
 
-	public MultiThread3 getMt3() {
+	public Thread getMt3() {
 		return mt3;
 	}
 
+	private synchronized void withdraw(String threadId, Map<String, Double> accountMap) {
+		Double accountCash = 0D;
+		if(accountMap != null) {
+			accountCash = accountMap.get("cash");
+//			if(accountCash > 0 ) {
+				accountMap.put("cash", accountCash-10000);
+				System.out.println(threadId+"가 "+accountCash+"에서 10000원을 출금하여 잔액이 "+(accountCash-10000)+"남았습니다.");
+//			}
+		}
+	}
 
-	class MultiThread1 extends Thread {
-		long threadId = 1L;
-		public long getId() {
+	class MultiThread1 implements Runnable {
+		String threadId = "Thread-1";
+		public String getId() {
 			return threadId;
 		}
-		public MultiThread1() {
-		}
+		
 		@Override
 		public void run() {
-			for(int i=0; i<50; i++ ) {
-				System.out.println("multiThread"+threadId+" : "+i*1+" ");
-//				try {
-//					Thread.sleep(500);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
+			try {
+				synchronized (this) {
+					while(accountMap.get("cash") > 0 ) {
+						withdraw(threadId,accountMap);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			
 		}
@@ -47,43 +69,40 @@ public class MultiThreadManager {
 	}
 	
 	class MultiThread2 implements Runnable {
-		String threadId = "multiThread2";
+		String threadId = "Thread-2";
 		public String getId() {
 			return threadId;
 		}
 		@Override
 		public void run() {
-			for(int i=0; i<50; i++ ) {
-				System.out.println(threadId+" : "+i*2+" ");
-//				try {
-//					Thread.sleep(500);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
+			try {
+				synchronized (this) {
+					while(accountMap.get("cash") > 0 ) {
+						withdraw(threadId,accountMap);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-		
 	}
 	
-	class MultiThread3 extends Thread {
-		long threadId = 3L;
-		public long getId() {
+	class MultiThread3 implements Runnable {
+		String threadId = "Thread-3";
+		public String getId() {
 			return threadId;
-		}
-		public MultiThread3() {
 		}
 		@Override
 		public void run() {
-			for(int i=0; i<50; i++ ) {
-				System.out.println("multiThread"+threadId+" : "+i*3+" ");
-//				try {
-//					Thread.sleep(500);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
+			try {
+				synchronized (this) {
+					while(accountMap.get("cash") > 0 ) {
+						withdraw(threadId,accountMap);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			
 		}
-		
 	}
 }
