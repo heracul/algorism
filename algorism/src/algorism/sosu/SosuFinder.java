@@ -1,45 +1,48 @@
 package algorism.sosu;
 
-import java.util.Scanner;
-import java.util.TreeSet;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import algorism.utils.BaseUtils;
 
 public class SosuFinder {
 
-	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
-		TreeSet<Integer> sosuSet = new TreeSet<Integer>();
-		TreeSet<Integer> exceptSet = new TreeSet<Integer>();
-		int start = scan.nextInt();
-		int max = scan.nextInt();
+	public static void main(String[] args) throws IOException {
+		byte[]bite = new byte[24];
+//		BufferedInputStream bis = new BufferedInputStream(System.in);
+//		bis.read(bite);
+		List<Integer> sosuList = new ArrayList<Integer>();
+//		String inputStr = new String(bite);
+		long startTime = System.currentTimeMillis();
 		
-		boolean isSosu = true;
+		int min = 1;
+		int max = 1000000;
+		
 		try {
-			for(int base=start; base<=max; base++ ) {
-				isSosu = true;
-				for(int i=1; i<=base; i++) {
-					if(base%i == 0) {
-						if(i!=1 && i!=base) {
-							isSosu = false;
-							break;
-						} 
-					} 
-				}
-				if(isSosu) {
-					if(base != 1) {
-						sosuSet.add(base);
+			sosuList.add(2);
+			for(int i=2; i<max; i++) {
+				for(int j=0; j<sosuList.size();j++) {
+					if(i%sosuList.get(j)==0) {
+						break;
+					}
+					if(j+1 == sosuList.size()) {
+						sosuList.add(i);
 					}
 				}
 			}
-		}finally {
-			if(scan != null) {
-				scan.close();
+			for(int i=0; i<sosuList.size(); i++) {
+				if(min <= sosuList.get(i) && max >= sosuList.get(i)) {
+					System.out.println(sosuList.get(i));
+				}
 			}
+			long endTime = System.currentTimeMillis();
+			BaseUtils.printElapseTime(startTime, endTime);
+		}finally {
+//			if(bis != null) {
+//				bis.close();
+//			}
 		}
-		
-		
-		System.out.println(sosuSet);
-		
-		
 	}
-
 }
