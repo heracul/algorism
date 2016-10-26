@@ -5,11 +5,19 @@ import algorism.utils.BaseUtils;
 public class InsertSort2 {
 
 	public static void main(String[] args) {
-		Integer[]arr = BaseUtils.getRandomIntegerArrayNoDup(50, 100);
-		InsertSort2 is = new InsertSort2();
-		System.out.print("before : ");
+		
+		Integer[]arr = BaseUtils.getRandomIntegerArrayNoDup(1000, 1000);
+		System.out.println("========= 난수발생 시작 ===========");
 		BaseUtils.printLine(arr);
+		System.out.println("========= 난수발생 끝   ===========");
+		long startTime = System.currentTimeMillis();
+		InsertSort2 is = new InsertSort2();
 		is.insertSort(arr);
+		long endTime = System.currentTimeMillis();
+		BaseUtils.printElapseTime(startTime, endTime);
+		System.out.println("========= 정렬완료 ===========");
+		BaseUtils.printLine(arr);
+		
 	}
 	
 	public void insertSort(Integer[]arr) {
@@ -26,7 +34,5 @@ public class InsertSort2 {
 			}
 			arr[index] = base;
 		}
-		System.out.print("after : ");
-		BaseUtils.printLine(arr);
 	}
 }
