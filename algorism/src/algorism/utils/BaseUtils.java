@@ -1,6 +1,7 @@
 package algorism.utils;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class BaseUtils {
@@ -22,16 +23,18 @@ public class BaseUtils {
 	public static Integer[] getRandomIntegerArrayNoDup(int totalCount, int figures) {
 		Random random = new Random();
 		Integer[] intArray = null;
-		HashSet<Integer> hashSet = new HashSet<Integer>();
+		List<Integer> list = new ArrayList<Integer>();
 		int temp =0;
 		for(int i=0; i<totalCount; i++) {
 			temp = random.nextInt(figures);
-			if(!hashSet.contains(temp)) {
-				hashSet.add(temp);
+			if(!list.contains(temp)) {
+				list.add(temp);
+			} else {
+				i--; //중복된 건수만큼 재처리해야 전체 건수에 맞출 수 있음. 
 			}
 		}
-		intArray = new Integer[hashSet.size()];
-		hashSet.toArray(intArray);
+		intArray = new Integer[list.size()];
+		list.toArray(intArray);
 		return intArray;
 	}
 	
@@ -46,5 +49,10 @@ public class BaseUtils {
 			}
 		}
 		System.out.println("");
+	}
+	
+	public static void printElapseTime(long startTime, long endTime) {
+		System.out.println((endTime-startTime)+"ms 소요되었습니다. ");
+		
 	}
 }
