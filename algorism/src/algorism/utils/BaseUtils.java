@@ -1,5 +1,8 @@
 package algorism.utils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -54,5 +57,26 @@ public class BaseUtils {
 	public static void printElapseTime(long startTime, long endTime) {
 		System.out.println((endTime-startTime)+"ms 소요되었습니다. ");
 		
+	}
+	
+	public static String getKeyboardInput(BufferedReader br) {
+		br = new BufferedReader(new InputStreamReader(System.in));
+		String inputParameter = "";
+		try {
+			inputParameter = br.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return inputParameter;
+	}
+	
+	public static void closeBufferedReader(BufferedReader br) {
+		try {
+			if(br != null) {
+				br.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
