@@ -1,6 +1,6 @@
 package algorism.sosu;
 
-import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,15 +10,14 @@ import algorism.utils.BaseUtils;
 public class SosuFinder {
 
 	public static void main(String[] args) throws IOException {
-		byte[]bite = new byte[24];
-//		BufferedInputStream bis = new BufferedInputStream(System.in);
-//		bis.read(bite);
+		BufferedReader br = null;
+		String inputStr = BaseUtils.getKeyboardInput(br);
+		int index = inputStr.indexOf(" ");
 		List<Integer> sosuList = new ArrayList<Integer>();
-//		String inputStr = new String(bite);
 		long startTime = System.currentTimeMillis();
-		
-		int min = 1;
-		int max = 1000000;
+		long midTime = 0L;
+		int min = Integer.parseInt(inputStr.substring(0, index));
+		int max = Integer.parseInt(inputStr.substring(index+1, inputStr.length()));
 		
 		try {
 			sosuList.add(2);
@@ -32,17 +31,17 @@ public class SosuFinder {
 					}
 				}
 			}
-			for(int i=0; i<sosuList.size(); i++) {
-				if(min <= sosuList.get(i) && max >= sosuList.get(i)) {
-					System.out.println(sosuList.get(i));
-				}
-			}
+			midTime = System.currentTimeMillis();
+			BaseUtils.printElapseTime(startTime, midTime);
+//			for(int i=0; i<sosuList.size(); i++) {
+//				if(min <= sosuList.get(i) && max >= sosuList.get(i)) {
+//					System.out.println(sosuList.get(i));
+//				}
+//			}
 			long endTime = System.currentTimeMillis();
 			BaseUtils.printElapseTime(startTime, endTime);
 		}finally {
-//			if(bis != null) {
-//				bis.close();
-//			}
+			BaseUtils.closeBufferedReader(br);
 		}
 	}
 }
