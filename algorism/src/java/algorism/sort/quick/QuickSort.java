@@ -6,7 +6,7 @@ public class QuickSort {
 
 	public static void main(String[] args) {
 		
-		Integer[] intArray = BaseUtils.getRandomIntegerArrayNoDup(10, 20);
+		Integer[] intArray = BaseUtils.getRandomIntegerArrayNoDup(10000, 15000);
 		System.out.println("========= 난수발생 시작 ===========");
 		BaseUtils.printLine(intArray);
 		System.out.println("========= 난수발생 끝   ===========");
