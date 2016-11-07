@@ -10,7 +10,7 @@ public class BinarySearch {
 		long startTime = System.currentTimeMillis();
 		Integer[] intArray = BaseUtils.getRandomIntegerArrayNoDup(50, 100);
 		BubbleSort bs = new BubbleSort();
-		intArray = bs.bubbleSort(intArray);
+		bs.bubbleSort(intArray);
 		int findInt = binarySearch.binarySearch(intArray, 57);
 		long endTime = System.currentTimeMillis();
 		System.out.println("찾고자 하는 변수 "+findInt+"를 찾는데"+ (endTime-startTime) +"(ms) 소요되었습니다.");

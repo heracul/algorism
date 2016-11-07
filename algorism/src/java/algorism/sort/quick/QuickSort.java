@@ -6,10 +6,10 @@ public class QuickSort {
 
 	public static void main(String[] args) {
 		
-		Integer[] intArray = BaseUtils.getRandomIntegerArrayNoDup(10000, 15000);
-		System.out.println("========= 난수발생 시작 ===========");
-		BaseUtils.printLine(intArray);
-		System.out.println("========= 난수발생 끝   ===========");
+		Integer[] intArray = BaseUtils.getRandomIntegerArrayNoDup(500000, 1000000);
+//		System.out.println("========= 난수발생 시작 ===========");
+//		BaseUtils.printLine(intArray);
+//		System.out.println("========= 난수발생 끝   ===========");
 		long startTime = System.currentTimeMillis();
 		
 		QuickSort qs = new QuickSort();
@@ -19,7 +19,7 @@ public class QuickSort {
 		BaseUtils.printElapseTime(startTime, endTime);
 
 		System.out.println("========= 정렬완료 ===========");
-		BaseUtils.printLine(intArray);
+//		BaseUtils.printLine(intArray);
 
 	}
 
