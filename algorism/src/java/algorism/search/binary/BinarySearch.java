@@ -1,4 +1,4 @@
-package algorism.binary.search;
+package algorism.search.binary;
 
 import algorism.sort.bubble.BubbleSort;
 import algorism.utils.BaseUtils;

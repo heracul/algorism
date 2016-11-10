@@ -1,4 +1,4 @@
-package algorism.binary.search.tree;
+package algorism.search.binary.tree;
 
 public class BinarySearchTree2 {
 	private Node root;
