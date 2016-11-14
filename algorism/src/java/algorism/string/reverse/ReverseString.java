@@ -2,6 +2,10 @@ package algorism.string.reverse;
 
 public class ReverseString {
 
+	/**
+	 * 단어단위의 reverse
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		String textMix = "SK C&C 플랫폼기술팀 박세일입니다.";
 		
