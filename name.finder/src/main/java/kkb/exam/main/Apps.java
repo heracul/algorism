@@ -13,7 +13,7 @@ import java.util.Set;
 import kkb.exam.constants.CommonSpec;
 import kkb.exam.constants.ResourceSpec;
 import kkb.exam.manager.IFinderManager;
-import kkb.exam.manager.impl.NameFinderManager;
+import kkb.exam.manager.impl.KmrnNameFinderManager;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -26,8 +26,8 @@ public class Apps {
 	private static Logger log = LogManager.getLogger(Apps.class);
 	
 	public static void main(String[] args) {
-		IFinderManager fm = new NameFinderManager();
-		
+//		IFinderManager fm = new NameFinderManager();
+		IFinderManager fm = new KmrnNameFinderManager();
 		String csvFilePath = ResourceSpec.BIN_PATH.getPath();
 		File csvFile = new File(csvFilePath+CommonSpec.CSV_FILE_NAME.getName());//CSV파일취득 
 		BufferedReader br = null;
