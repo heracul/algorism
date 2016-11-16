@@ -20,16 +20,22 @@ public class NameFinderManager implements IFinderManager {
 		init();
 	}
 	
+	/**
+	 * 초기화 처리를 위한 init 메소드 
+	 */
 	public void init() {
 		log  = LogManager.getLogger(this.getClass());
 	}
 	
+	/** 
+	 * 학교명을 Key로 하여 건수를 Map에 put할 수 있도록 처리함. 
+	 */
 	public void findWord(String readLine, Map<String, Integer>nameMap) {
-		for(String removeWord : CommonSpec.REMOVE_WORD_ARRAY.getAttribute()) {
+		for(String removeWord : CommonSpec.REMOVE_WORD_ARRAY.getAttribute()) {//불필요한 문자열 공백으로 치환 
 			readLine = readLine.replaceAll(removeWord, " ");
 		}
 		
-		String[]tokenArr = StringUtils.split(readLine, (char)0x20);
+		String[]tokenArr = StringUtils.split(readLine, (char)0x20);//공백을 기준으로 split 수행 
 		Integer cnt = null;
 		String newToken;
 		for(String token : tokenArr) {
@@ -46,6 +52,11 @@ public class NameFinderManager implements IFinderManager {
 		}
 	}
 	
+	/**
+	 * 문자열에 대한 validate수행 
+	 * @param str
+	 * @return
+	 */
 	public static String validateLetter(String str) {
 		char[]charArr = str.toCharArray();
 		StringBuffer sb = new StringBuffer();
