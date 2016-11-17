@@ -40,7 +40,7 @@ public class NameFinderManager implements IFinderManager {
 		String newToken;
 		for(String token : tokenArr) {
 			newToken = validateLetter(token);
-			if(StringUtils.isNotBlank(newToken = FinderUtils.getMatchedLetter(CommonSpec.FIND_NAME_ARRAY.getAttribute(), newToken))) {
+			if(StringUtils.isNotBlank(newToken = FinderUtils.getMatchedLetter(CommonSpec.FIND_NAME_ARRAY.getAttribute(), newToken, true))) {
 				
 				cnt = nameMap.get(newToken);
 				if(null != cnt) {

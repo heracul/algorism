@@ -29,16 +29,17 @@ public class FinderUtils {
 	 * 찾고자하는 문자와 일치하는 문자열이 있을 경우에는 해당 문자열을 return한다. 
 	 * @param findNameArray
 	 * @param token
+	 * @param ignoreEquasl 찾고자 하는 단어와 찾은 단어가 완벽하게 일치한 경우에는 학교명이 없다고 판단하고 return하지 않음.
 	 * @return
 	 */
-	public static String getMatchedLetter(String[]findNameArray, String token) {
+	public static String getMatchedLetter(String[]findNameArray, String token, boolean ignoreEqual) {
 		if(StringUtils.isBlank(token)) return null;
 		String newToken = null;
 		int index = 0;
 		for(int i=0; i<findNameArray.length;i++) {
 			if((index=token.indexOf(findNameArray[i])) != -1) {
 				newToken = token.substring(0,index+findNameArray[i].length() );
-				if(findNameArray[i].equals(newToken.trim())) {
+				if(ignoreEqual && findNameArray[i].equals(newToken.trim())) {
 					//일치한다는 건 학교명이 안들어가 있다는 뜻임.
 					break;
 				}
