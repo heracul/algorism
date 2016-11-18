@@ -5,15 +5,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
+import java.util.TreeMap;
 
 import kkb.exam.constants.CommonSpec;
 import kkb.exam.constants.ResourceSpec;
 import kkb.exam.manager.IFinderManager;
-import kkb.exam.manager.impl.KmrnNameFinderManager;
+import kkb.exam.manager.impl.NameFinderManager;
+import kkb.exam.utils.FinderUtils;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -26,13 +27,16 @@ public class Apps {
 	private static Logger log = LogManager.getLogger(Apps.class);
 	
 	public static void main(String[] args) {
-//		IFinderManager fm = new NameFinderManager();
-		IFinderManager fm = new KmrnNameFinderManager();
+		IFinderManager fm = new NameFinderManager();
+//		IFinderManager fm = new KmrnNameFinderManager();
 		String csvFilePath = ResourceSpec.BIN_PATH.getPath();
 		File csvFile = new File(csvFilePath+CommonSpec.CSV_FILE_NAME.getName());//CSV파일취득 
 		BufferedReader br = null;
 				
 		Map<String, Integer> nameMap = new HashMap<String, Integer>();
+		TreeMap<String, Integer> keySortedNameMap = null;
+		TreeMap<String, Integer> valSortedNameMap = null;
+		ValueComparator vb = new ValueComparator(nameMap);
 		try {
 			long startTime = System.currentTimeMillis();
 			String s = null;
@@ -42,18 +46,17 @@ public class Apps {
 				fm.findWord(s, nameMap);
 				lineCnt++;
 			}
-
-			Set<String> keySet = nameMap.keySet();
-			Iterator<String> keyIter = keySet.iterator();
-			String key = null;
-			int cnt = 0;
-			while(keyIter.hasNext()) {//출력실시 
-				key = keyIter.next();
-				log.debug("["+key+"] : "+nameMap.get(key));
-				cnt++;
-			}
-			log.debug("총 라인수 : "+lineCnt);
-			log.debug("총 건수 : "+cnt);
+			keySortedNameMap = new TreeMap<String, Integer>(nameMap);
+			valSortedNameMap = new TreeMap<String, Integer>(vb);
+			valSortedNameMap.putAll(nameMap);
+			
+			File keySortedFile = new File("log/keySortedReport.log");
+			File valSortedFile = new File("log/valSortedReport.log");
+			FinderUtils.writeDataFile(keySortedNameMap, keySortedFile);//key기준으로 sort
+			FinderUtils.writeDataFile(valSortedNameMap.entrySet(), nameMap, valSortedFile);//value기준으로 sort
+			
+			log.debug(nameMap);
+			log.debug("총 건수 : "+nameMap.entrySet().size());
 			long endTime = System.currentTimeMillis();
 			log.debug("Elapse time  : "+(endTime-startTime)+"ms");
 			
@@ -71,5 +74,17 @@ public class Apps {
 			}
 		}
 	}
-
+}
+class ValueComparator implements Comparator<String> {
+	Map<String, Integer>nameMap = null;
+	public ValueComparator(Map<String, Integer> nameMap) {
+	        this.nameMap = nameMap;
+	    }
+	public int compare(String key1, String key2) {
+		if(nameMap.get(key1) <= nameMap.get(key2)) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
 }
