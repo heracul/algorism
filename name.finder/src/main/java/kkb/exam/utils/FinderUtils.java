@@ -1,6 +1,13 @@
 package kkb.exam.utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.Character.UnicodeBlock;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -49,5 +56,47 @@ public class FinderUtils {
 			
 		}
 		return null;
+	}
+	
+	/**
+	 * Map의 값을 File에 Write한다.
+	 * @param nameMap
+	 * @param file
+	 * @throws IOException
+	 */
+	public static void writeDataFile(Map<String, Integer>nameMap, File file) throws IOException {
+		writeDataFile(nameMap.entrySet(), nameMap, file);
+	}
+	
+	/**
+	 *  Map의 값을 File에 Write한다. 
+	 *  writeDataFile(Map<String, Integer>nameMap, File file)에 대한 오버로딩
+	 * @param entrySet
+	 * @param nameMap
+	 * @param file
+	 * @throws IOException
+	 */
+	public static void writeDataFile(Set<Map.Entry<String, Integer>> entrySet, Map<String, Integer>nameMap, File file) throws IOException {
+		if(file == null || nameMap == null)return;
+		FileOutputStream os = null;
+		try {
+			os = new FileOutputStream(file);
+			StringBuilder sb = null;
+			for(Map.Entry<String, Integer>entry : entrySet) {
+				sb = new StringBuilder();
+				sb.append("[").append(entry.getKey()).append("]");
+				sb.append(" : ").append(nameMap.get(entry.getKey())).append("\n");
+				os.write(sb.toString().getBytes());
+			}
+			os.flush();
+		}finally {
+			if(os != null) {
+				try {
+					os.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+		
 	}
 }
