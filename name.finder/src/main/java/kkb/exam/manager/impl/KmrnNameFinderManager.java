@@ -25,6 +25,7 @@ public class KmrnNameFinderManager implements IFinderManager {
 	public void init() {
 		log  = LogManager.getLogger(this.getClass());
 		komoran = new Komoran(ResourceSpec.BIN_PATH.getPath()+"/models");
+		komoran.setUserDic(ResourceSpec.BIN_PATH.getPath()+"/models/user.dic.txt");
 	}
 
 	public void findWord(String readLine, Map<String, Integer> nameMap) {
@@ -47,16 +48,18 @@ public class KmrnNameFinderManager implements IFinderManager {
 //						}
 //					}
 //				}
-				if("NNP".equals(wordMorph.getSecond()) || "NNG".equals(wordMorph.getSecond())) {
-					wordList.add(wordMorph.getFirst());
-				} 
+				System.out.println(wordMorph.getFirst() +"/"+wordMorph.getSecond());
+//				if("NNP".equals(wordMorph.getSecond()) || "NNG".equals(wordMorph.getSecond())) {
+//					wordList.add(wordMorph.getFirst());
+//				} 
 			}
 		}
 		
 	}
 	public static void main(String[] args) {
 		KmrnNameFinderManager knf = new KmrnNameFinderManager();
-		String str1 = "여기는 명지대학교, 청담고등학교, 구정중, 청담 초등학교 출신들이 모이는 자리입니다. ";
+		String str1 = "여기는 명지대학교, 청담고등학교, 압구정중, 압구정중학교, 청담 초등학교 출신들이 모이는 자리입니다. ";
 		knf.findWord(str1, new HashMap<String, Integer>());
+		
 	}
 }

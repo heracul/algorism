@@ -38,10 +38,14 @@ public class NameFinderManager implements IFinderManager {
 		String[]tokenArr = StringUtils.split(readLine, (char)0x20);//공백을 기준으로 split 수행 
 		Integer cnt = null;
 		String newToken;
-		for(String token : tokenArr) {
+		saveToken:for(String token : tokenArr) {
+			for(String specificWord : CommonSpec.REMOVE_SEPECIFIC_WORD_ARRAY.getAttribute()) {
+				if(specificWord.equals(token.trim())) {
+					continue saveToken;
+				}
+			}
 			newToken = validateLetter(token);
 			if(StringUtils.isNotBlank(newToken = FinderUtils.getMatchedLetter(CommonSpec.FIND_NAME_ARRAY.getAttribute(), newToken, true))) {
-				
 				cnt = nameMap.get(newToken);
 				if(null != cnt) {
 					nameMap.put(newToken, cnt+1);
