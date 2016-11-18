@@ -11,7 +11,7 @@
 
     <!-- 날짜별 로그 파일 생성 -->
 	<appender name="rollingFile" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="log/report_name.log"/>
+        <param name="File" value="log/application.log"/>
         <param name="Append" value="false"/>
         <param name="MaxFileSize" value="100MB"/>
         <param name="MaxBackupIndex" value="2"></param>
