@@ -28,7 +28,7 @@ public class KmrnNameFinderManager implements IFinderManager {
 		komoran.setUserDic(ResourceSpec.BIN_PATH.getPath()+"/models/user.dic.txt");
 	}
 
-	public void findWord(String readLine, Map<String, Integer> nameMap) {
+	public void findWord(String readLine, Map<String, Integer> nameMap, boolean doDistinct) {
 		List<List<Pair<String, String>>> result = komoran.analyzeWithoutSpace(readLine);
 		Integer cnt = null;
 		StringBuilder sb = null;
@@ -59,7 +59,7 @@ public class KmrnNameFinderManager implements IFinderManager {
 	public static void main(String[] args) {
 		KmrnNameFinderManager knf = new KmrnNameFinderManager();
 		String str1 = "여기는 명지대학교, 청담고등학교, 압구정중, 압구정중학교, 청담 초등학교 출신들이 모이는 자리입니다. ";
-		knf.findWord(str1, new HashMap<String, Integer>());
+		knf.findWord(str1, new HashMap<String, Integer>(), false);
 		
 	}
 }
