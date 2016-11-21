@@ -1,6 +1,5 @@
 package kkb.exam.main;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,15 +9,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 import kkb.exam.comparator.ValueComparator;
 import kkb.exam.constants.CommonSpec;
 import kkb.exam.constants.ResourceSpec;
 import kkb.exam.manager.IFinderManager;
+import kkb.exam.manager.impl.KmrnNameFinderManager;
 import kkb.exam.manager.impl.NameFinderManager;
 import kkb.exam.utils.FinderUtils;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  * Main클래스 
@@ -28,8 +28,19 @@ public class Apps {
 	private static Logger log = LogManager.getLogger(Apps.class);
 	
 	public static void main(String[] args) {
-		IFinderManager fm = new NameFinderManager();
-//		IFinderManager fm = new KmrnNameFinderManager();
+		boolean useKomoran = true;
+		IFinderManager fm = null;
+		String keySortedRptName = "";
+		String valSortedRptName = "";
+		if(useKomoran) {
+			fm = new KmrnNameFinderManager("", "");
+			keySortedRptName = "log/keySortedReport_komoran.log";
+			valSortedRptName = "log/valSortedReport_komoran.log";
+		} else {
+			fm = new NameFinderManager();
+			keySortedRptName = "log/keySortedReport.log";
+			valSortedRptName = "log/valSortedReport.log";
+		}
 		String csvFilePath = ResourceSpec.BIN_PATH.getPath();
 		File csvFile = new File(csvFilePath+CommonSpec.CSV_FILE_NAME.getName());//CSV파일취득 
 				
@@ -38,6 +49,7 @@ public class Apps {
 		TreeMap<String, Integer> valSortedNameMap = null;
 		ValueComparator vb = new ValueComparator(nameMap);
 		FileReader fr = null;
+		boolean doDistinct = true;
 		try {
 			long startTime = System.currentTimeMillis();
 			fr = new FileReader(csvFile);//csv파일처리의 편의성을 위해 BufferedReader나 FileInputStream을 사용하지 않고 FileReader를 사용함. 
@@ -48,7 +60,7 @@ public class Apps {
 				if(c == 34) {//쌍따옴표인 경우.
 					quatCnt++;
 					if(quatCnt == 2) {
-						fm.findWord(sb.toString(), nameMap, false);//구간에서 학교명에 대한 카운트를 한번만 수행할지 여부를 true, false로 정의한다. 
+						fm.findWord(sb.toString(), nameMap, doDistinct);//구간에서 학교명에 대한 카운트를 한번만 수행할지 여부를 true, false로 정의한다. 
 						sb = new StringBuilder();
 						quatCnt = 0;
 					} 
@@ -62,8 +74,8 @@ public class Apps {
 			keySortedNameMap.putAll(nameMap);
 			valSortedNameMap.putAll(nameMap);
 			
-			File keySortedFile = new File("log/keySortedReport.log");
-			File valSortedFile = new File("log/valSortedReport.log");
+			File keySortedFile = new File(keySortedRptName);
+			File valSortedFile = new File(valSortedRptName);
 			FinderUtils.writeDataFile(keySortedNameMap, keySortedFile);//key기준으로 sort
 			FinderUtils.writeDataFile(valSortedNameMap.entrySet(), nameMap, valSortedFile);//value기준으로 sort
 			
