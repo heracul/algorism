@@ -5,19 +5,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import kkb.exam.comparator.ValueComparator;
 import kkb.exam.constants.CommonSpec;
 import kkb.exam.constants.ResourceSpec;
 import kkb.exam.manager.IFinderManager;
 import kkb.exam.manager.impl.NameFinderManager;
 import kkb.exam.utils.FinderUtils;
-
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 /**
  * Main클래스 
@@ -31,23 +32,34 @@ public class Apps {
 //		IFinderManager fm = new KmrnNameFinderManager();
 		String csvFilePath = ResourceSpec.BIN_PATH.getPath();
 		File csvFile = new File(csvFilePath+CommonSpec.CSV_FILE_NAME.getName());//CSV파일취득 
-		BufferedReader br = null;
 				
 		Map<String, Integer> nameMap = new HashMap<String, Integer>();
 		TreeMap<String, Integer> keySortedNameMap = null;
 		TreeMap<String, Integer> valSortedNameMap = null;
 		ValueComparator vb = new ValueComparator(nameMap);
+		FileReader fr = null;
 		try {
 			long startTime = System.currentTimeMillis();
-			String s = null;
-			int lineCnt = 0;
-			br = new BufferedReader(new FileReader(csvFile));
-			while((s=br.readLine()) != null) {//라인별 read
-				fm.findWord(s, nameMap);
-				lineCnt++;
+			fr = new FileReader(csvFile);//csv파일의 처리를 위해 BufferedReader나 FileInputStream을 사용하지 않음. 
+			int c = 0;
+			StringBuilder sb = new StringBuilder();//동기화가 필요없기 때문에 StringBuffer대신 StringBuilder를 이용함. 
+			int quatCnt = 0;
+			while((c=fr.read()) != -1) {
+				if(c == 34) {
+					quatCnt++;
+					if(quatCnt == 2) {
+						fm.findWord(sb.toString(), nameMap, false);//구간에서 학교명에 대한 카운트를 한번만 수행할지 여부를 true, false로 정의한다. 
+						sb = new StringBuilder();
+						quatCnt = 0;
+					} 
+				} else {
+					sb.append((char)c);
+				}
 			}
-			keySortedNameMap = new TreeMap<String, Integer>(nameMap);
-			valSortedNameMap = new TreeMap<String, Integer>(vb);
+			
+			keySortedNameMap = new TreeMap<String, Integer>(Collections.reverseOrder());//키값에 대한 내림차순 정렬을 위해 
+			valSortedNameMap = new TreeMap<String, Integer>(vb);//value에 대한 커스텀 정렬 처리를 위해 
+			keySortedNameMap.putAll(nameMap);
 			valSortedNameMap.putAll(nameMap);
 			
 			File keySortedFile = new File("log/keySortedReport.log");
@@ -67,24 +79,12 @@ public class Apps {
 			log.error("Happened IOException!");
 			e.printStackTrace();
 		} finally {
-			if(br != null) {
+			if(fr != null) {
 				try {
-					br.close();
+					fr.close();
 				} catch (IOException e) {}
 			}
 		}
 	}
 }
-class ValueComparator implements Comparator<String> {
-	Map<String, Integer>nameMap = null;
-	public ValueComparator(Map<String, Integer> nameMap) {
-	        this.nameMap = nameMap;
-	    }
-	public int compare(String key1, String key2) {
-		if(nameMap.get(key1) <= nameMap.get(key2)) {
-			return 1;
-		} else {
-			return -1;
-		}
-	}
-}
+
