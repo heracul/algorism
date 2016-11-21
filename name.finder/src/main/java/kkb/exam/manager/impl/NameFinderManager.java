@@ -62,7 +62,7 @@ public class NameFinderManager implements IFinderManager {
 	 * @param str
 	 * @return
 	 */
-	public static String validateLetter(String str) {
+	public String validateLetter(String str) {
 		char[]charArr = str.toCharArray();
 		StringBuffer sb = new StringBuffer();
 		for(char c : charArr) {
