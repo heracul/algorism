@@ -40,12 +40,12 @@ public class Apps {
 		FileReader fr = null;
 		try {
 			long startTime = System.currentTimeMillis();
-			fr = new FileReader(csvFile);//csv파일의 처리를 위해 BufferedReader나 FileInputStream을 사용하지 않음. 
+			fr = new FileReader(csvFile);//csv파일처리의 편의성을 위해 BufferedReader나 FileInputStream을 사용하지 않고 FileReader를 사용함. 
 			int c = 0;
 			StringBuilder sb = new StringBuilder();//동기화가 필요없기 때문에 StringBuffer대신 StringBuilder를 이용함. 
 			int quatCnt = 0;
 			while((c=fr.read()) != -1) {
-				if(c == 34) {
+				if(c == 34) {//쌍따옴표인 경우.
 					quatCnt++;
 					if(quatCnt == 2) {
 						fm.findWord(sb.toString(), nameMap, false);//구간에서 학교명에 대한 카운트를 한번만 수행할지 여부를 true, false로 정의한다. 
