@@ -45,7 +45,7 @@ public class FinderUtils {
 			if((index=token.indexOf(findNameArray[i])) != -1) {
 				newToken = token.substring(0,index+findNameArray[i].length() );
 				if(ignoreEqual && findNameArray[i].equals(newToken.trim())) {
-					//일치한다는 건 학교명이 안들어가 있다는 뜻임.
+					//일치한다는 건 학교명이 안들어가 있다는 뜻임. ex) newToken이 중학교, 고등학교, 초, 중 등등
 					break;
 				}
 				
