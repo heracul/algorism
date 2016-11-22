@@ -30,13 +30,28 @@ commentData[1366,1]
 names(commentData)[1] <- c("message")
 
 commentData$message[1:5]
-naming.score = function(sentences, name_list) {
-  scores = lapply(sentences, function(line, name_list) {
-    extractNoun(as.character(line))
-  })
-  return(scores)
-  #scores.df = data.frame(score=scores, text=sentences)
+naming.table <- function(sentences, paramTable) {
+  DT <- data.table(name="", cnt=0)
+  for(line in sentences) {
+    laply(extractNoun(as.character(line)), function(c) {
+      #x in extractNoun(as.character(line))
+      findWord <- paramTable[(paramTable$name_list == c)]
+      if(!empty(findWord)) {
+        cntVal <- DT[DT$name==findWord$name_list]$cnt
+        if(identical(cntVal, numeric(0))) {
+          addDT <- data.table(name=findWord$name_list, cnt=1)
+          DT <- rbind(DT, addDT)
+          print(DT)
+        } else {
+          DT[DT$name==findWord$name_list]$cnt = cntVal+1  
+        }
+      }
+    }) 
+  }
+  return(DT)
 }
-temp <- naming.score(commentData$message[1:2], schoolList)
+
+tempDT <- naming.table(commentData$message[23], schoolTable)
+
 
 
