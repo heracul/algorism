@@ -31,13 +31,12 @@ names(commentData)[1] <- c("message")
 
 commentData$message[1:5]
 naming.score = function(sentences, name_list) {
-  scores = lapply(sentences, function(sentence, name_list) {
-    noun_array <- extractNoun(sentence)
-    
+  scores = lapply(sentences, function(line, name_list) {
+    extractNoun(as.character(line))
   })
   return(scores)
   #scores.df = data.frame(score=scores, text=sentences)
 }
-temp <- naming.score(commentData$message[1:10], schoolList)
+temp <- naming.score(commentData$message[1:2], schoolList)
 
 
