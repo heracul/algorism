@@ -14,6 +14,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+/**
+ * String에서 학교명을 찾아 카운트 하는 클래스로서 Komoran lib를 사용하여 처리한다.
+ * @author 08158
+ *
+ */
 public class KmrnNameFinderManager implements IFinderManager {
 
 	private static Logger log;
@@ -22,12 +27,18 @@ public class KmrnNameFinderManager implements IFinderManager {
 	private String dictionaryFileName = "user.dic.txt";
 	
 	
+	/**
+	 * 생성자
+	 * @param dictionaryFolderPath
+	 * @param dictionaryFileName
+	 */
 	public KmrnNameFinderManager(String dictionaryFolderPath, String dictionaryFileName) {//생성자
 		if(StringUtils.isNotBlank(dictionaryFolderPath))this.dictionaryFolderPath = dictionaryFolderPath;
 		if(StringUtils.isNotBlank(dictionaryFileName))  this.dictionaryFileName = dictionaryFileName;
 		init();
 	}
-	public void init() {//인스턴스 초기화
+	
+	public void init() {
 		log  = LogManager.getLogger(this.getClass());
 		komoran = new Komoran(dictionaryFolderPath);
 		komoran.setUserDic(dictionaryFolderPath+"/"+dictionaryFileName);
@@ -44,7 +55,7 @@ public class KmrnNameFinderManager implements IFinderManager {
 		String matchedLetter = null;
 		saveToken:for (List<Pair<String, String>> eojeolResult : result) {
 			for (Pair<String, String> wordMorph : eojeolResult) {
-				if("NNG".equals( wordMorph.getSecond()) ||
+				if("NNG".equals( wordMorph.getSecond()) || //명사일 경우에만
 				   "NNP".equals( wordMorph.getSecond()) ||
 				   "NA".equals( wordMorph.getSecond()) 
 				) {
