@@ -10,12 +10,20 @@ import kkb.exam.constants.CommonSpec;
 import kkb.exam.manager.IFinderManager;
 import kkb.exam.utils.FinderUtils;
 
+/**
+ * String에서 학교명을 찾아 카운트 하는 클래스
+ * @author 08158
+ *
+ */
 public class NameFinderManager implements IFinderManager {
 	
 	
 	private static Logger log;
 	
 		
+	/**
+	 * 생성자
+	 */
 	public NameFinderManager() {
 		init();
 	}
