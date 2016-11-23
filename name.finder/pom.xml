@@ -4,7 +4,7 @@
 
 	<groupId>kkb.exam</groupId>
 	<artifactId>name.finder</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-release</version>
 	<packaging>jar</packaging>
 
 	<name>name.finder</name>
@@ -31,6 +31,27 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+		    <groupId>kr.co</groupId>
+		    <artifactId>shineware.nlp.komoran</artifactId>
+		    <version>2.4</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/komoran-2.4-e.jar</systemPath>
+		</dependency>
+		<dependency>
+		    <groupId>kr.co</groupId>
+		    <artifactId>shineware.util.common</artifactId>
+		    <version>2.0</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/shineware-common-2.0.jar</systemPath>
+		</dependency>
+		<dependency>
+		    <groupId>kr.co</groupId>
+		    <artifactId>shineware.ds.model</artifactId>
+		    <version>2.4</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/shineware-ds-1.0.jar</systemPath>
 		</dependency>
 	</dependencies>
 </project>
