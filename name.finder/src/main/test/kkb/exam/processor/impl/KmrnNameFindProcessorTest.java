@@ -1,4 +1,4 @@
-package kkb.exam.manager.impl;
+package kkb.exam.processor.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,16 +6,19 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import kkb.exam.processor.impl.KmrnNameFindProcessor;
+
 import static org.junit.Assert.*;
 
-public class KmrnNameFinderManagerTest {
+public class KmrnNameFindProcessorTest {
 
-	public KmrnNameFinderManager kmrnManager;
+	public KmrnNameFindProcessor kmrnManager;
 	public String strLine;
 	
 	@Before
 	public void setUp() throws Exception {
-		kmrnManager = new KmrnNameFinderManager("C:\\Users\\08158\\git\\algorism\\name.finder\\src\\resources\\models", "user.dic.txt");
+		kmrnManager = new KmrnNameFindProcessor("C:\\Users\\08158\\git\\algorism\\name.finder\\src\\resources\\models", "user.dic.txt");
 		strLine = "\"서울 구로구 개봉중학교 서울구로구개봉중학교서울구로구개봉중학교서울구로구개봉중학교서울구로구개봉중학교"
 				+ "서울구로구개봉중학교서울구로구개봉중학교서울구로구개봉중학교서울구로구개봉중학교서울구로구개봉중학교서울구로구개봉중학교"
 				+ "서울구로구개봉중학교서울구로구개봉중학교서울구로구개봉중학교서울구로구개봉중학교서울구로구개봉중학교서울구로구개봉중학교"

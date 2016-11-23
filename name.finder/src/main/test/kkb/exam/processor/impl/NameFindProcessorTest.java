@@ -1,4 +1,4 @@
-package kkb.exam.manager.impl;
+package kkb.exam.processor.impl;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,10 +10,12 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import kkb.exam.processor.impl.NameFindProcessor;
 
-public class NameFinderManagerTest {
 
-	public NameFinderManager nameFinder;
+public class NameFindProcessorTest {
+
+	public NameFindProcessor nameFinder;
 	public final String str1 = "\"수원시율현중학교는참실하고항상행복하고선생님들께충실하고바른학교입니다~~"
 			+ "수원시 율현중학교 학생들이 항상 즐겁고 올바른 길로 성장할 수 있도록 도움이 되주고 \n"
 			+ "선생님들께서 항상 타의 모범이 되어주시고 자라나는 새싹들의 의견을 잘 수렴해주시어 \n"
@@ -26,7 +28,7 @@ public class NameFinderManagerTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		nameFinder = new NameFinderManager();
+		nameFinder = new NameFindProcessor();
 		
 	}
 
