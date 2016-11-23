@@ -14,9 +14,9 @@ import java.util.TreeMap;
 import kkb.exam.comparator.ValueComparator;
 import kkb.exam.constants.CommonSpec;
 import kkb.exam.constants.ResourceSpec;
-import kkb.exam.manager.IFinderManager;
-import kkb.exam.manager.impl.KmrnNameFinderManager;
-import kkb.exam.manager.impl.NameFinderManager;
+import kkb.exam.processor.IFindProcessor;
+import kkb.exam.processor.impl.KmrnNameFindProcessor;
+import kkb.exam.processor.impl.NameFindProcessor;
 import kkb.exam.utils.FinderUtils;
 
 import org.apache.log4j.LogManager;
@@ -26,24 +26,24 @@ import org.apache.log4j.Logger;
  * Main클래스 
  * @author seilpark
  */
-public class Apps {
-	private static Logger log = LogManager.getLogger(Apps.class);
+public class FindNameManager {
+	private static Logger log = LogManager.getLogger(FindNameManager.class);
 	private static String keySortedRptName;
 	private static String valSortedRptName;
-	private static IFinderManager fm;
+	private static IFindProcessor fp;
 	private static final String CSV_FILE_PATH = ResourceSpec.BIN_PATH.getPath();
 	
 	/**
 	 * 초기화처리를 위한 메소드
 	 * @param useKomoran
 	 */
-	private static void init(boolean useKomoran) {
+	private void init(boolean useKomoran) {
 		if(useKomoran) {
-			fm = new KmrnNameFinderManager("", "");
+			fp = new KmrnNameFindProcessor("", "");
 			keySortedRptName = "log/keySortedReport_komoran.log";
 			valSortedRptName = "log/valSortedReport_komoran.log";
 		} else {
-			fm = new NameFinderManager();
+			fp = new NameFindProcessor();
 			keySortedRptName = "log/keySortedReport.log";
 			valSortedRptName = "log/valSortedReport.log";
 		}
@@ -55,7 +55,7 @@ public class Apps {
 	 * @return
 	 * @throws IOException
 	 */
-	private static TreeMap<String, Integer> doSort(Map<String, Integer> nameMap, Comparator<Object> comparator) throws IOException {
+	private TreeMap<String, Integer> doSort(Map<String, Integer> nameMap, Comparator<Object> comparator) throws IOException {
 		TreeMap<String, Integer> sortedNameMap = new TreeMap<String, Integer>(comparator);
 		sortedNameMap.putAll(nameMap);
 		return sortedNameMap;
@@ -68,7 +68,7 @@ public class Apps {
 	 * @param fileName
 	 * @throws IOException
 	 */
-	private static void printMap(Set<Entry<String, Integer>> keys, Map<String, Integer> nameMap, String fileName) throws IOException {
+	private void printMap(Set<Entry<String, Integer>> keys, Map<String, Integer> nameMap, String fileName) throws IOException {
 		File sortedFile = new File(fileName);
 		FinderUtils.writeDataFile(keys, nameMap, sortedFile);//key기준으로 sort
 	}
@@ -80,7 +80,7 @@ public class Apps {
 	 * @param doDistinct
 	 * @throws IOException
 	 */
-	private static void readFile(String fileFullPath, Map<String, Integer> nameMap, boolean doDistinct) throws IOException {
+	private void readFile(String fileFullPath, Map<String, Integer> nameMap, boolean doDistinct) throws IOException {
 		File csvFile = new File(fileFullPath);//CSV파일취득 
 		FileReader fr = null;
 		try {
@@ -92,7 +92,7 @@ public class Apps {
 				if(c == 34) {//쌍따옴표인 경우.
 					quatCnt++;
 					if(quatCnt == 2) {
-						fm.findWord(sb.toString(), nameMap, doDistinct);//구간에서 학교명에 대한 카운트를 한번만 수행할지 여부를 true, false로 정의한다. 
+						fp.findWord(sb.toString(), nameMap, doDistinct);//구간에서 학교명에 대한 카운트를 한번만 수행할지 여부를 true, false로 정의한다. 
 						sb = new StringBuilder();
 						quatCnt = 0;
 					} 
@@ -112,23 +112,27 @@ public class Apps {
 	/**
 	 * Main메소드
 	 * @param args
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
-		boolean useKomoran = true;//Komora 형태소분석 lib기반의 Manager사용여부
+	public static void main(String[] args) throws Exception {
+		boolean useKomoran = true;//Komoran 형태소분석 lib기반의 Manager사용여부
 		boolean doDistinct = false;//한 구문당 학교명 중복작성시 distinct처리를 할지 여부
 		String fileFullPath = CSV_FILE_PATH+CommonSpec.CSV_FILE_NAME.getName();
+		FindNameManager findManager = new FindNameManager();
 		try {
 			log.debug(">>>>Start File finder");
 			long startTime = System.currentTimeMillis();
-			init(useKomoran);//초기화
+			findManager.init(useKomoran);//초기화
 			Map<String, Integer> nameMap = new HashMap<String, Integer>();
 			Comparator<Object> comparator = new ValueComparator(nameMap);//value에 대한 내림차순정렬을 위한 custom Comparator
-			readFile(fileFullPath, nameMap, doDistinct);//CSV 파일 Read 및 학교명 카운트
 			
-			TreeMap<String, Integer> keySortedNameMap = doSort(nameMap, Collections.reverseOrder());//Key를 기준으로 정렬
-			TreeMap<String, Integer> valSortedNameMap = doSort(nameMap, comparator);//Value를 기준으로 정렬
-			printMap(keySortedNameMap.entrySet(), nameMap, keySortedRptName);//정렬된 Key를 가지고 파일 출력
-			printMap(valSortedNameMap.entrySet(), nameMap, valSortedRptName);//정렬된 Value를 가지고 파일 출력
+			findManager.readFile(fileFullPath, nameMap, doDistinct);//CSV 파일 Read 및 학교명 카운트
+			
+			TreeMap<String, Integer> keySortedNameMap = findManager.doSort(nameMap, Collections.reverseOrder());//Key를 기준으로 정렬
+			TreeMap<String, Integer> valSortedNameMap = findManager.doSort(nameMap, comparator);//Value를 기준으로 정렬
+			
+			findManager.printMap(keySortedNameMap.entrySet(), nameMap, keySortedRptName);//정렬된 Key를 가지고 파일 출력
+			findManager.printMap(valSortedNameMap.entrySet(), nameMap, valSortedRptName);//정렬된 Value를 가지고 파일 출력
 			
 			log.debug(nameMap);
 			log.debug("총 건수 : "+nameMap.entrySet().size());
@@ -138,9 +142,11 @@ public class Apps {
 		} catch (IOException e) {
 			log.error("Happened IOException!");
 			e.printStackTrace();
+			throw e;
 		} catch (Exception e) {
 			log.error("Unexpected Error happend");
 			e.printStackTrace();
+			throw e;
 		}
 	}
 }
