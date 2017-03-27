@@ -49,6 +49,8 @@ public class BaseUtils {
 		for(Object obj : objArr) {
 			if(obj instanceof Integer) {
 				System.out.print(((Integer)obj).intValue()+" ");
+			} else if(obj instanceof Character) {
+				System.out.print(((Character)obj).charValue()+" ");
 			}
 		}
 		System.out.println("");

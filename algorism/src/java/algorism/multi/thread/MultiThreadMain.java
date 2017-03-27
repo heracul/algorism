@@ -3,7 +3,7 @@ package algorism.multi.thread;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MultiThreadMaiin {
+public class MultiThreadMain {
 
 	public static void main(String[] args)  {
 		Map<String, Double> accountMap = new HashMap<String, Double>();
